@@ -1,4 +1,102 @@
-html {
-  margin: 0;
-  padding: 0;
+body {
+  font-family: "Roboto", sans-serif;
+  color: white;
+}
+
+.card {
+  background-image: linear-gradient(135deg, #00feba, #5b548a);
+  border-radius: 10px;
+  width: 15rem;
+  margin: 5rem auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.search input {
+  border: none;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.7rem 0.2rem 0.7rem;
+  max-width: 10rem;
+}
+
+.search input:focus {
+  outline: none;
+}
+
+.search button {
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+  height: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search button:focus {
+  outline: none;
+}
+
+.search button:hover {
+  cursor: pointer;
+}
+.search button img {
+  width: 14px;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+}
+
+.description {
+  display: flex;
+  justify-content: center;
+  font-size: 0.8rem;
+  margin-top: -1.2rem;
+}
+
+.temp {
+  margin-top: 1.5rem;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: self-start;
+}
+
+.temp .value {
+  font-size: 2.5rem;
+  text-align: start;
+}
+
+.measurements {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.measurements img {
+  width: 16px;
+  filter: grayscale(90%);
+}
+
+.value {
+  color: white;
+  font-size: 0.8rem;
+}
+
+.measure {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 }
