@@ -5,7 +5,44 @@
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
     <title>Weather app</title>
   </head>
-  <body></body>
+  <body>
+    <div class="card">
+      <div class="search">
+        <input placeholder="Enter city name" />
+        <button><img src="icon/search.png" alt="search icon" /></button>
+      </div>
+
+      <div class="weather">
+        <div class="icon"><img src="icon/50n.png" alt="" /></div>
+        <h2 class="description">Light rain</h2>
+        <h2 class="temp">
+          <span class="value">30</span><span class="units">°C</span>
+        </h2>
+
+        <div class="measurements">
+          <div class="measure wind">
+            <img src="icon/wind.png" alt="wind icon" />
+            <span class="value">100</span>
+            <img class="arrow" src="icon/arrow.png" alt="arrow icon" />
+          </div>
+          <div class="measure humidity">
+            <img src="icon/humidity.png" alt="humidity icon" />
+            <span class="value">100</span>
+          </div>
+          <div class="measure clouds">
+            <img src="icon/cloud.png" alt="cloud icon" />
+            <span class="value">100</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
