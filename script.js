@@ -1,6 +1,17 @@
 const apiKey = "4994c6d047fcd34481fdda640bf387f2";
-const request = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=metric`;
+const weatherRequest = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=metric`;
+const reverseGeolocationRequest = `http://api.openweathermap.org/geo/1.0/reverse?appid=${apiKey}`;
 const searchEl = document.querySelector(".search");
+
+const successCallback = async (position) => {
+  const lat = position.coords.latitude;
+  const lon = position.coords.longitude;
+  const res = await fetch(`${reverseGeolocationRequest}&lat=${lat}&lon=${lon}`);
+  const data = await res.json();
+  const city = data[0].name;
+  setWeather(city);
+};
+const pos = navigator.geolocation.getCurrentPosition(successCallback);
 
 searchEl.addEventListener("click", async function (e) {
   if (e.target.tagName === "IMG" || e.target.tagName === "BUTTON") setWeather();
@@ -10,8 +21,9 @@ searchEl.addEventListener("keypress", function (e) {
   if (e.key === "Enter") setWeather();
 });
 
-async function setWeather() {
-  const cityName = searchEl.querySelector("input").value;
+async function setWeather(city) {
+  let cityName;
+  city ? (cityName = city) : (cityName = searchEl.querySelector("input").value);
   const data = await getWeatherOfCity(cityName);
   if (!data.weather) {
     alert(data.message);
@@ -21,7 +33,7 @@ async function setWeather() {
 }
 
 async function getWeatherOfCity(city) {
-  const response = await fetch(`${request}&q=${city}`);
+  const response = await fetch(`${weatherRequest}&q=${city}`);
   return response.ok ? response.json() : new Error(`City ${city} not found!`);
 }
 
