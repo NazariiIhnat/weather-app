@@ -1,13 +1,30 @@
 body {
   font-family: "Roboto", sans-serif;
   color: white;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.background-img {
+  background-image: url(../img/weather-background-img.jpg);
+  height: 100vh;
+  overflow: hidden;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(3px);
+  filter: opacity(0.68);
 }
 
 .card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
   background-image: linear-gradient(135deg, #00feba, #5b548a);
   border-radius: 10px;
   width: 15rem;
-  margin: 5rem auto;
+  margin: 0 auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
