@@ -12,8 +12,7 @@ body {
   overflow: hidden;
   background-size: cover;
   background-repeat: no-repeat;
-  filter: blur(3px);
-  filter: opacity(0.68);
+  filter: opacity(0.48);
 }
 
 .card {
@@ -28,6 +27,7 @@ body {
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  box-shadow: 5px 10px 16px #747474;
 }
 
 .search {
