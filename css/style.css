@@ -74,11 +74,16 @@ body {
   justify-content: center;
 }
 
-.description {
+.description,
+.location {
   display: flex;
   justify-content: center;
   font-size: 0.8rem;
   margin-top: -1.2rem;
+}
+
+.location {
+  margin-top: 0.3rem;
 }
 
 .temp {

@@ -26,10 +26,11 @@ async function getWeatherOfCity(city) {
 }
 
 function setDataToWeatherCard(data) {
-  console.log(data);
   const iconID = data.weather[0].icon;
   const weatherDescription = data.weather[0].description;
   const temp = Math.round(+data.main.temp);
+  const city = data.name;
+  const country = data.sys.country;
   const windSpeed = data.wind.speed;
   const windDirection = data.wind.deg;
   const humidity = data.main.humidity;
@@ -39,6 +40,9 @@ function setDataToWeatherCard(data) {
   document.querySelector(".weather .description").textContent =
     weatherDescription;
   document.querySelector(".temp .value").textContent = temp;
+  document.querySelector(
+    ".weather .location"
+  ).textContent = `${city}, ${country}`;
   document.querySelector(".wind .value").textContent = windSpeed;
   document.querySelector(".wind .arrow").style.transform = `rotate(${
     windDirection > 180 ? -Math.abs(360 - windDirection) : windDirection
