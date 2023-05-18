@@ -1,7 +1,17 @@
-const apiKey = "4994c6d047fcd34481fdda640bf387f2";
-const weatherRequest = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=metric`;
-const reverseGeolocationRequest = `http://api.openweathermap.org/geo/1.0/reverse?appid=${apiKey}`;
+const weatherApiKey = "4994c6d047fcd34481fdda640bf387f2";
+const cityAutocompleteApiKey = "46285a33571b4253b2b9c5ac3d9e2a95";
+const weatherRequest = `https://api.openweathermap.org/data/2.5/weather?appid=${weatherApiKey}&units=metric`;
+const reverseGeolocationRequest = `http://api.openweathermap.org/geo/1.0/reverse?appid=${weatherApiKey}`;
+const cityAutocompleteRequest = `https://api.geoapify.com/v1/geocode/autocomplete?apiKey=${cityAutocompleteApiKey}&type=city&text=`;
 const searchEl = document.querySelector(".search");
+
+(async function () {
+  var input = searchEl.querySelector("input");
+  var options = {
+    types: ["geocode"],
+  };
+  var autocomplete = new google.maps.places.Autocomplete(input, options);
+})();
 
 const successCallback = async (position) => {
   const lat = position.coords.latitude;
