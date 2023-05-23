@@ -71,7 +71,7 @@ function setDataToWeatherCard(data) {
   document.querySelector(".weather .icon img").src = `icon/${data.iconID}.png`;
   document.querySelector(".weather .description").textContent =
     data.weatherDescription;
-  document.querySelector(".temp .value").textContent = data.temp;
+  document.querySelector(".temp .value").textContent = Math.round(+data.temp);
   document.querySelector(
     ".weather .location"
   ).textContent = `${data.city}, ${data.country}`;
