@@ -84,3 +84,37 @@ function setDataToWeatherCard(data) {
   document.querySelector(".humidity .value").textContent = data.humidity;
   document.querySelector(".clouds .value").textContent = data.clouds;
 }
+
+function renderTempLineChart(hours, temps) {
+  const chartEL = document.querySelector(".temp-chart").getContext("2d");
+  const config = {
+    type: "line",
+    data: {
+      labels: hours,
+      datasets: [
+        {
+          label: "My First dataset",
+          data: temps,
+          borderColor: "white",
+          backgroundColor: "white",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+    },
+  };
+
+  Chart.defaults.color = "white";
+  Chart.defaults.elements.point.radius = 2;
+  Chart.defaults.elements.arc.backgroundColor = "#ffffff";
+  var myChart = new Chart(chartEL, config);
+  console.log(Chart.defaults);
+}
+
+renderTempLineChart([89, 9, 10, 11, 12], [1, 2, -33, 4, 55]); // test values
