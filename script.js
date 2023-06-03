@@ -57,8 +57,8 @@ async function setWeather(cityName) {
       const weatherForecastDate = new Date(forecast.dt_txt);
       return weatherOfDateRendered.getDate() === weatherForecastDate.getDate();
     });
-  const hours = todayThreeHourWeatherForecastData.map((forecast) =>
-    new Date(forecast.dt_txt).getHours()
+  const hours = todayThreeHourWeatherForecastData.map(
+    (forecast) => `${new Date(forecast.dt_txt).getHours()}:00`
   );
   const temps = todayThreeHourWeatherForecastData.map((forecast) =>
     Math.round(+forecast.main.temp)
