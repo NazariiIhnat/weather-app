@@ -4,7 +4,11 @@ const currrentWeatherRequest = `https://api.openweathermap.org/data/2.5/weather?
 const hourlyWeatherForecastReqiest = `https://api.openweathermap.org/data/2.5/forecast?appid=${weatherApiKey}&ctn=40&units=metric`;
 const reverseGeolocationRequest = `http://api.openweathermap.org/geo/1.0/reverse?appid=${weatherApiKey}`;
 const cityAutocompleteRequest = `https://api.geoapify.com/v1/geocode/autocomplete?apiKey=${cityAutocompleteApiKey}&type=city&text=`;
+
 const searchEl = document.querySelector(".search");
+
+let weatherOfDateRendered;
+let chart;
 
 (async function () {
   var input = searchEl.querySelector("input");
@@ -37,18 +41,46 @@ async function setWeather(cityName) {
   cityName
     ? (theCity = cityName)
     : (theCity = searchEl.querySelector("input").value);
-  const data = await getWeatherOfCity(theCity);
+  const data = await getCurrentWeatherOfCity(theCity);
   if (!data.weather) {
     alert(data.message);
     return;
   }
-  const { icon: iconID, description: weatherDescription } = data.weather[0];
-  const { temp, humidity } = data.main;
-  const { name: city } = data;
-  const country = data.sys.country;
-  const { deg: windDirection, speed: windSpeed } = data.wind;
-  const clouds = data.clouds.all;
-  const weatherObj = {
+  const weatherObj = getWeatherObjFromData(data);
+  setDataToWeatherCard(weatherObj);
+  weatherOfDateRendered = new Date();
+  const fiveDaysThreeHourWeatherForecastData = await getHourlyWeatherOfCity(
+    theCity
+  );
+  const todayThreeHourWeatherForecastData =
+    fiveDaysThreeHourWeatherForecastData.list.filter((forecast) => {
+      const weatherForecastDate = new Date(forecast.dt_txt);
+      return weatherOfDateRendered.getDate() === weatherForecastDate.getDate();
+    });
+  const hours = todayThreeHourWeatherForecastData.map((forecast) =>
+    new Date(forecast.dt_txt).getHours()
+  );
+  const temps = todayThreeHourWeatherForecastData.map((forecast) =>
+    Math.round(+forecast.main.temp)
+  );
+  const iconsID = todayThreeHourWeatherForecastData.map(
+    (forecast) => forecast.weather[0].icon
+  );
+  renderTempsLineChart(hours, temps, iconsID);
+}
+
+function getWeatherObjFromData(data, index) {
+  const { icon: iconID, description: weatherDescription } = index
+    ? data.list[index].weather[0]
+    : data.weather[0];
+  const { temp, humidity } = index ? data.list[index].main : data.main;
+  const { name: city } = index ? data.city : data;
+  const country = index ? data.city.country : data.sys.country;
+  const { deg: windDirection, speed: windSpeed } = index
+    ? data.list[index].wind
+    : data.wind;
+  const clouds = index ? data.list[index].clouds.all : data.clouds.all;
+  return {
     iconID,
     weatherDescription,
     temp,
@@ -59,11 +91,15 @@ async function setWeather(cityName) {
     windSpeed,
     clouds,
   };
-  setDataToWeatherCard(weatherObj);
 }
 
-async function getWeatherOfCity(city) {
+async function getCurrentWeatherOfCity(city) {
   const response = await fetch(`${currrentWeatherRequest}&q=${city}`);
+  return response.ok ? response.json() : new Error(`City ${city} not found!`);
+}
+
+async function getHourlyWeatherOfCity(city) {
+  const response = await fetch(`${hourlyWeatherForecastReqiest}&q=${city}`);
   return response.ok ? response.json() : new Error(`City ${city} not found!`);
 }
 
@@ -85,7 +121,7 @@ function setDataToWeatherCard(data) {
   document.querySelector(".clouds .value").textContent = data.clouds;
 }
 
-function renderTempLineChart(hours, temps) {
+function renderTempsLineChart(hours, temps, icons) {
   const chartEL = document.querySelector(".temp-chart").getContext("2d");
   const config = {
     type: "line",
@@ -106,6 +142,84 @@ function renderTempLineChart(hours, temps) {
         legend: {
           display: false,
         },
+        tooltip: {
+          enabled: false,
+          external: function (context) {
+            // Tooltip Element
+            let tooltipEl = document.getElementById("chartjs-tooltip");
+
+            // Create element on first render
+            if (!tooltipEl) {
+              tooltipEl = document.createElement("div");
+              tooltipEl.id = "chartjs-tooltip";
+              // tooltipEl.innerHTML = "<table></table>";
+              document.body.appendChild(tooltipEl);
+            }
+
+            // Hide if no tooltip
+            const tooltipModel = context.tooltip;
+            if (tooltipModel.opacity === 0) {
+              tooltipEl.style.opacity = 0;
+              return;
+            }
+
+            // Set caret Position
+            tooltipEl.classList.remove("above", "below", "no-transform");
+            if (tooltipModel.yAlign) {
+              tooltipEl.classList.add(tooltipModel.yAlign);
+            } else {
+              tooltipEl.classList.add("no-transform");
+            }
+
+            function getBody(bodyItem) {
+              return bodyItem.lines;
+            }
+
+            // Set Text
+            if (tooltipModel.body) {
+              const pointIndex = tooltipModel.dataPoints[0].parsed.x;
+
+              const html = `
+              
+              `;
+              // let innerHtml = "<thead>";
+              // titleLines.forEach(function (title) {
+              //   innerHtml += "<tr><th>" + title + "</th></tr>";
+              // });
+              // innerHtml += "</thead><tbody>";
+
+              // bodyLines.forEach(function (body, i) {
+              //   const colors = tooltipModel.labelColors[i];
+              //   let style = "background:" + colors.backgroundColor;
+              //   style += "; border-color:" + colors.borderColor;
+              //   style += "; border-width: 2px";
+              //   const span = '<span style="' + style + '">' + body + "</span>";
+              //   innerHtml += "<tr><td>" + span + "</td></tr>";
+              // });
+              // innerHtml += "</tbody>";
+
+              // let tableRoot = tooltipEl.querySelector("table");
+              // tableRoot.innerHTML = innerHtml;
+            }
+
+            const position = context.chart.canvas.getBoundingClientRect();
+            const bodyFont = Chart.helpers.toFont(
+              tooltipModel.options.bodyFont
+            );
+
+            // Display, position, and set styles for font
+            tooltipEl.style.opacity = 1;
+            tooltipEl.style.position = "absolute";
+            tooltipEl.style.left =
+              position.left + window.pageXOffset + tooltipModel.caretX + "px";
+            tooltipEl.style.top =
+              position.top + window.pageYOffset + tooltipModel.caretY + "px";
+            tooltipEl.style.font = bodyFont.string;
+            tooltipEl.style.padding =
+              tooltipModel.padding + "px " + tooltipModel.padding + "px";
+            tooltipEl.style.pointerEvents = "none";
+          },
+        },
       },
     },
   };
@@ -113,8 +227,6 @@ function renderTempLineChart(hours, temps) {
   Chart.defaults.color = "white";
   Chart.defaults.elements.point.radius = 2;
   Chart.defaults.elements.arc.backgroundColor = "#ffffff";
-  var myChart = new Chart(chartEL, config);
-  console.log(Chart.defaults);
+  if (chart) chart.destroy();
+  chart = new Chart(chartEL, config);
 }
-
-renderTempLineChart([89, 9, 10, 11, 12], [1, 2, -33, 4, 55]); // test values
