@@ -138,6 +138,11 @@ function renderTempsLineChart(hours, temps, icons) {
       ],
     },
     options: {
+      onHover: function (event, chartElement) {
+        event.native.target.style.cursor = chartElement[0]
+          ? "pointer"
+          : "default";
+      },
       plugins: {
         legend: {
           display: false,
@@ -171,35 +176,21 @@ function renderTempsLineChart(hours, temps, icons) {
               tooltipEl.classList.add("no-transform");
             }
 
-            function getBody(bodyItem) {
-              return bodyItem.lines;
-            }
-
-            // Set Text
+            // Set html
             if (tooltipModel.body) {
-              const pointIndex = tooltipModel.dataPoints[0].parsed.x;
+              const { dataIndex } = context.tooltip.dataPoints[0];
 
               const html = `
-              
+              <div class="card-small card-pretty">
+                <h3 class="time">${hours[dataIndex]}</h3>
+                <img src="icon/${icons[dataIndex]}.png" alt="weather icon" />
+                <div class="temp">
+                  <span class="value">${temps[dataIndex]}</span>
+                  <span class="units">°C</span>
+                </div>
+              </div>
               `;
-              // let innerHtml = "<thead>";
-              // titleLines.forEach(function (title) {
-              //   innerHtml += "<tr><th>" + title + "</th></tr>";
-              // });
-              // innerHtml += "</thead><tbody>";
-
-              // bodyLines.forEach(function (body, i) {
-              //   const colors = tooltipModel.labelColors[i];
-              //   let style = "background:" + colors.backgroundColor;
-              //   style += "; border-color:" + colors.borderColor;
-              //   style += "; border-width: 2px";
-              //   const span = '<span style="' + style + '">' + body + "</span>";
-              //   innerHtml += "<tr><td>" + span + "</td></tr>";
-              // });
-              // innerHtml += "</tbody>";
-
-              // let tableRoot = tooltipEl.querySelector("table");
-              // tableRoot.innerHTML = innerHtml;
+              tooltipEl.innerHTML = html;
             }
 
             const position = context.chart.canvas.getBoundingClientRect();

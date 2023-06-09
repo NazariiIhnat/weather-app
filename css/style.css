@@ -15,19 +15,22 @@ body {
   filter: opacity(0.48);
 }
 
+.card-pretty {
+  background-image: linear-gradient(135deg, #00feba, #5b548a);
+  border-radius: 10px;
+  box-shadow: 5px 10px 16px #747474;
+}
+
 .card {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  background-image: linear-gradient(135deg, #00feba, #5b548a);
-  border-radius: 10px;
   width: 15rem;
   margin: 0 auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  box-shadow: 5px 10px 16px #747474;
 }
 
 .search {
@@ -121,4 +124,27 @@ body {
   display: flex;
   align-items: center;
   gap: 0.2rem;
+}
+
+.card-small {
+  width: 3rem;
+  padding: 0.4rem;
+}
+
+.time {
+  text-align: center;
+}
+
+.card-small img {
+  width: 48px;
+}
+
+.card-small .temp {
+  margin-top: 0;
+  transform: translateY(-7px);
+}
+
+.card-small span,
+.card-small .temp span {
+  font-size: 0.8rem;
 }
