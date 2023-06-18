@@ -143,13 +143,21 @@ function renderTempsLineChart(hours, temps, icons) {
           : "default";
       },
 
-      onClick: function (event, chartElement) {
-        if (chartElement[0]) {
+      onClick: function (event, elements, chart) {
+        if (elements[0]) {
+          const index = elements[0].index;
           const selectedHourWeather = getWeatherObjFromData(
             hourlyWeatherData,
-            chartElement[0].index
+            index
           );
           setDataToWeatherCard(selectedHourWeather);
+
+          //Paint clicked point
+          const dataset = chart.data.datasets[0];
+          dataset.pointBackgroundColor = dataset.data.map((v, i) =>
+            i == elements[0]?.index ? "#19FFFA" : "white"
+          );
+          chart.update();
         }
       },
       plugins: {
@@ -225,7 +233,8 @@ function renderTempsLineChart(hours, temps, icons) {
   };
 
   Chart.defaults.color = "white";
-  Chart.defaults.elements.point.radius = 2;
+  Chart.defaults.elements.point.radius = 3;
+  Chart.defaults.elements.point.hoverRadius = 5;
   Chart.defaults.elements.arc.backgroundColor = "#ffffff";
   if (chart) chart.destroy();
   chart = new Chart(chartEL, config);
