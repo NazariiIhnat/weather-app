@@ -1,5 +1,5 @@
 const weatherApiKey = "4994c6d047fcd34481fdda640bf387f2";
-const cityAutocompleteApiKey = "46285a33571b4253b2b9c5ac3d9e2a95";
+const cityAutocompleteApiKey = "AIzaSyDsMlT5Ub3at7ifuCuYrEBK4M7UwZecgsw";
 const currrentWeatherRequest = `https://api.openweathermap.org/data/2.5/weather?appid=${weatherApiKey}&units=metric`;
 const hourlyWeatherForecastReqiest = `https://api.openweathermap.org/data/2.5/forecast?appid=${weatherApiKey}&ctn=40&units=metric`;
 const reverseGeolocationRequest = `http://api.openweathermap.org/geo/1.0/reverse?appid=${weatherApiKey}`;
@@ -9,6 +9,8 @@ const searchEl = document.querySelector(".search");
 
 let weatherOfDateRendered;
 let chart;
+let currentWeatherData;
+let hourlyWeatherData;
 
 (async function () {
   var input = searchEl.querySelector("input");
@@ -41,22 +43,21 @@ async function setWeather(cityName) {
   cityName
     ? (theCity = cityName)
     : (theCity = searchEl.querySelector("input").value);
-  const data = await getCurrentWeatherOfCity(theCity);
-  if (!data.weather) {
-    alert(data.message);
+  currentWeatherData = await getCurrentWeatherOfCity(theCity);
+  if (!currentWeatherData.weather) {
+    alert(currentWeatherData.message);
     return;
   }
-  const weatherObj = getWeatherObjFromData(data);
+  const weatherObj = getWeatherObjFromData(currentWeatherData);
   setDataToWeatherCard(weatherObj);
   weatherOfDateRendered = new Date();
-  const fiveDaysThreeHourWeatherForecastData = await getHourlyWeatherOfCity(
-    theCity
-  );
-  const todayThreeHourWeatherForecastData =
-    fiveDaysThreeHourWeatherForecastData.list.filter((forecast) => {
+  hourlyWeatherData = await getHourlyWeatherOfCity(theCity);
+  const todayThreeHourWeatherForecastData = hourlyWeatherData.list.filter(
+    (forecast) => {
       const weatherForecastDate = new Date(forecast.dt_txt);
       return weatherOfDateRendered.getDate() === weatherForecastDate.getDate();
-    });
+    }
+  );
   const hours = todayThreeHourWeatherForecastData.map(
     (forecast) => `${new Date(forecast.dt_txt).getHours()}:00`
   );
@@ -70,16 +71,14 @@ async function setWeather(cityName) {
 }
 
 function getWeatherObjFromData(data, index) {
-  const { icon: iconID, description: weatherDescription } = index
-    ? data.list[index].weather[0]
-    : data.weather[0];
-  const { temp, humidity } = index ? data.list[index].main : data.main;
-  const { name: city } = index ? data.city : data;
-  const country = index ? data.city.country : data.sys.country;
-  const { deg: windDirection, speed: windSpeed } = index
-    ? data.list[index].wind
-    : data.wind;
-  const clouds = index ? data.list[index].clouds.all : data.clouds.all;
+  const { icon: iconID, description: weatherDescription } =
+    index >= 0 ? data.list[index].weather[0] : data.weather[0];
+  const { temp, humidity } = index >= 0 ? data.list[index].main : data.main;
+  const { name: city } = index >= 0 ? data.city : data;
+  const country = index >= 0 ? data.city.country : data.sys.country;
+  const { deg: windDirection, speed: windSpeed } =
+    index >= 0 ? data.list[index].wind : data.wind;
+  const clouds = index >= 0 ? data.list[index].clouds.all : data.clouds.all;
   return {
     iconID,
     weatherDescription,
@@ -142,6 +141,16 @@ function renderTempsLineChart(hours, temps, icons) {
         event.native.target.style.cursor = chartElement[0]
           ? "pointer"
           : "default";
+      },
+
+      onClick: function (event, chartElement) {
+        if (chartElement[0]) {
+          const selectedHourWeather = getWeatherObjFromData(
+            hourlyWeatherData,
+            chartElement[0].index
+          );
+          setDataToWeatherCard(selectedHourWeather);
+        }
       },
       plugins: {
         legend: {
