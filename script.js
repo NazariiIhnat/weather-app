@@ -7,7 +7,6 @@ const cityAutocompleteRequest = `https://api.geoapify.com/v1/geocode/autocomplet
 
 const searchEl = document.querySelector(".search");
 
-let weatherOfDateRendered;
 let chart;
 let currentWeatherData;
 let hourlyWeatherData;
@@ -50,9 +49,7 @@ async function setWeather(cityName) {
   }
   const weatherObj = getWeatherObjFromData(currentWeatherData);
   setDataToWeatherCard(weatherObj);
-  weatherOfDateRendered = new Date();
   hourlyWeatherData = await getHourlyWeatherOfCity(theCity);
-  console.log(hourlyWeatherData);
   const hours = hourlyWeatherData.list.map(
     (forecast) => `${new Date(forecast.dt_txt).getHours()}:00`
   );
