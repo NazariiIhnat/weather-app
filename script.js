@@ -52,19 +52,14 @@ async function setWeather(cityName) {
   setDataToWeatherCard(weatherObj);
   weatherOfDateRendered = new Date();
   hourlyWeatherData = await getHourlyWeatherOfCity(theCity);
-  const todayThreeHourWeatherForecastData = hourlyWeatherData.list.filter(
-    (forecast) => {
-      const weatherForecastDate = new Date(forecast.dt_txt);
-      return weatherOfDateRendered.getDate() === weatherForecastDate.getDate();
-    }
-  );
-  const hours = todayThreeHourWeatherForecastData.map(
+  console.log(hourlyWeatherData);
+  const hours = hourlyWeatherData.list.map(
     (forecast) => `${new Date(forecast.dt_txt).getHours()}:00`
   );
-  const temps = todayThreeHourWeatherForecastData.map((forecast) =>
+  const temps = hourlyWeatherData.list.map((forecast) =>
     Math.round(+forecast.main.temp)
   );
-  const iconsID = todayThreeHourWeatherForecastData.map(
+  const iconsID = hourlyWeatherData.list.map(
     (forecast) => forecast.weather[0].icon
   );
   renderTempsLineChart(hours, temps, iconsID);
@@ -121,7 +116,7 @@ function setDataToWeatherCard(data) {
 }
 
 function renderTempsLineChart(hours, temps, icons) {
-  const chartEL = document.querySelector(".temp-chart").getContext("2d");
+  const chartEL = document.querySelector(".chart").getContext("2d");
   const config = {
     type: "line",
     data: {
@@ -136,7 +131,9 @@ function renderTempsLineChart(hours, temps, icons) {
         },
       ],
     },
+    responsive: true,
     options: {
+      maintainAspectRatio: false,
       onHover: function (event, chartElement) {
         event.native.target.style.cursor = chartElement[0]
           ? "pointer"
@@ -155,7 +152,7 @@ function renderTempsLineChart(hours, temps, icons) {
           //Paint clicked point
           const dataset = chart.data.datasets[0];
           dataset.pointBackgroundColor = dataset.data.map((v, i) =>
-            i == elements[0]?.index ? "#19FFFA" : "white"
+            i == elements[0]?.index ? "black" : "white"
           );
           chart.update();
         }

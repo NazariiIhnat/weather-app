@@ -148,3 +148,24 @@ body {
 .card-small .temp span {
   font-size: 0.8rem;
 }
+
+.chart-container {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.chart-container--inner {
+  width: 1800px;
+}
+
+.chart-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.chart-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.chart-container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
