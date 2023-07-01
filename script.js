@@ -6,6 +6,8 @@ const reverseGeolocationRequest = `http://api.openweathermap.org/geo/1.0/reverse
 const cityAutocompleteRequest = `https://api.geoapify.com/v1/geocode/autocomplete?apiKey=${cityAutocompleteApiKey}&type=city&text=`;
 
 const searchEl = document.querySelector(".search");
+const canvas = document.querySelector(".chart");
+const daysEl = document.querySelector(".days-container");
 
 let chart;
 let currentWeatherData;
@@ -49,6 +51,7 @@ async function setWeather(cityName) {
   }
   const weatherObj = getWeatherObjFromData(currentWeatherData);
   setDataToWeatherCard(weatherObj);
+
   hourlyWeatherData = await getHourlyWeatherOfCity(theCity);
   const hours = hourlyWeatherData.list.map(
     (forecast) => `${new Date(forecast.dt_txt).getHours()}:00`
@@ -60,6 +63,10 @@ async function setWeather(cityName) {
     (forecast) => forecast.weather[0].icon
   );
   renderTempsLineChart(hours, temps, iconsID);
+
+  //render days
+
+  renderDays(hourlyWeatherData);
 }
 
 function getWeatherObjFromData(data, index) {
@@ -71,6 +78,7 @@ function getWeatherObjFromData(data, index) {
   const { deg: windDirection, speed: windSpeed } =
     index >= 0 ? data.list[index].wind : data.wind;
   const clouds = index >= 0 ? data.list[index].clouds.all : data.clouds.all;
+  const stringDate = index ? data.list[index].dt_txt : null;
   return {
     iconID,
     weatherDescription,
@@ -81,6 +89,7 @@ function getWeatherObjFromData(data, index) {
     windDirection,
     windSpeed,
     clouds,
+    stringDate,
   };
 }
 
@@ -112,8 +121,25 @@ function setDataToWeatherCard(data) {
   document.querySelector(".clouds .value").textContent = data.clouds;
 }
 
+function renderDays(hourlyWeatherData) {
+  const daysNameSet = new Set(
+    hourlyWeatherData.list.map((data) => {
+      return new Date(data.dt_txt).toLocaleString("en-US", {
+        weekday: "short",
+      });
+    })
+  );
+  let html = `<ul>
+  ${[...daysNameSet].reduce((acc, day) => {
+    acc += `<li>${day}</li>`;
+    return acc;
+  }, "")}
+  </ul>`;
+  daysEl.innerHTML = html;
+}
+
 function renderTempsLineChart(hours, temps, icons) {
-  const chartEL = document.querySelector(".chart").getContext("2d");
+  const chartEL = canvas.getContext("2d");
   const config = {
     type: "line",
     data: {
@@ -232,4 +258,37 @@ function renderTempsLineChart(hours, temps, icons) {
   Chart.defaults.elements.arc.backgroundColor = "#ffffff";
   if (chart) chart.destroy();
   chart = new Chart(chartEL, config);
+
+  const dataset = chart.data.datasets[0];
+  dataset.pointBackgroundColor = dataset.data.map((v, i) => {
+    return "white";
+  });
+  chart.update();
 }
+
+daysEl.addEventListener("click", function (e) {
+  if (e.target.tagName !== "LI") return;
+  const selectDayName = e.target.textContent;
+  const index = hourlyWeatherData.list.findIndex((forecast) => {
+    return (
+      new Date(forecast.dt_txt).toLocaleString("en-US", {
+        weekday: "short",
+      }) === selectDayName
+    );
+  });
+  const { pointBackgroundColor } = chart.data.datasets[0];
+  pointBackgroundColor.forEach((x, i) => {
+    pointBackgroundColor[i] = "white";
+  });
+  pointBackgroundColor[index] = "black";
+  chart.update();
+
+  const weatherObj = getWeatherObjFromData(hourlyWeatherData, index);
+  setDataToWeatherCard(weatherObj);
+
+  const div = document.querySelector(".chart-container");
+  div.scrollLeft = index * 45;
+
+  daysEl.querySelectorAll("li").forEach((x) => x.classList.remove("select"));
+  e.target.classList.add("select");
+});
