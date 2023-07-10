@@ -7,7 +7,7 @@ const cityAutocompleteRequest = `https://api.geoapify.com/v1/geocode/autocomplet
 
 const searchEl = document.querySelector(".search");
 const canvas = document.querySelector(".chart");
-const daysEl = document.querySelector(".days-container");
+const daysElContainer = document.querySelector(".days-container");
 
 let chart;
 let currentWeatherData;
@@ -78,7 +78,7 @@ function getWeatherObjFromData(data, index) {
   const { deg: windDirection, speed: windSpeed } =
     index >= 0 ? data.list[index].wind : data.wind;
   const clouds = index >= 0 ? data.list[index].clouds.all : data.clouds.all;
-  const stringDate = index ? data.list[index].dt_txt : null;
+  const stringDate = index >= 0 ? data.list[index].dt_txt : null;
   return {
     iconID,
     weatherDescription,
@@ -135,7 +135,7 @@ function renderDays(hourlyWeatherData) {
     return acc;
   }, "")}
   </ul>`;
-  daysEl.innerHTML = html;
+  daysElContainer.innerHTML = html;
 }
 
 function renderTempsLineChart(hours, temps, icons) {
@@ -178,6 +178,13 @@ function renderTempsLineChart(hours, temps, icons) {
             i == elements[0]?.index ? "black" : "white"
           );
           chart.update();
+
+          const shortDayName = new Date(
+            selectedHourWeather.stringDate
+          ).toLocaleString("en-US", {
+            weekday: "short",
+          });
+          selectDayName(shortDayName);
         }
       },
       plugins: {
@@ -266,7 +273,7 @@ function renderTempsLineChart(hours, temps, icons) {
   chart.update();
 }
 
-daysEl.addEventListener("click", function (e) {
+daysElContainer.addEventListener("click", function (e) {
   if (e.target.tagName !== "LI") return;
   const selectDayName = e.target.textContent;
   const index = hourlyWeatherData.list.findIndex((forecast) => {
@@ -289,6 +296,18 @@ daysEl.addEventListener("click", function (e) {
   const div = document.querySelector(".chart-container");
   div.scrollLeft = index * 45;
 
-  daysEl.querySelectorAll("li").forEach((x) => x.classList.remove("select"));
+  daysElContainer
+    .querySelectorAll("li")
+    .forEach((x) => x.classList.remove("select"));
   e.target.classList.add("select");
 });
+
+function selectDayName(dayShortName) {
+  const listItemElements = daysElContainer.querySelectorAll("li");
+  Array.from(listItemElements)
+    .filter((x) => x.classList.contains("select"))[0]
+    ?.classList.remove("select");
+  Array.from(listItemElements)
+    .filter((x) => x.textContent === dayShortName)[0]
+    ?.classList.add("select");
+}
