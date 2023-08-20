@@ -25,7 +25,11 @@ This is a simple weather application built using HTML, CSS, and JavaScript. The 
 </ol>
 
 <h2>Screenshots</h2>
+<span>Show autocomplete</span>
 <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/1.png" alt="Weather app screenshot 1">
+<span>When hover point on line chart small div apears with hour, temperature and weather icon related to point day and hour</span>
 <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/2.png" alt="Weather app screenshot 2">
+<span>Weather displayed by clicking on specific point on line chart Also day name highlighted.</span>
 <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/3.png" alt="Weather app screenshot 3">
+<span>When click on specific day under the line chart the weather forecast of this day and 0:00 hout will be displayed. Also line chart will be scrooled to relative point and this point will be highlighted.</span>
 <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/4.png"  alt="Weather app screenshot 4">
