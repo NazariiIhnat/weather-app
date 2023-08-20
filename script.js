@@ -2,7 +2,7 @@ const weatherApiKey = "4994c6d047fcd34481fdda640bf387f2";
 const cityAutocompleteApiKey = "AIzaSyDsMlT5Ub3at7ifuCuYrEBK4M7UwZecgsw";
 const currrentWeatherRequest = `https://api.openweathermap.org/data/2.5/weather?appid=${weatherApiKey}&units=metric`;
 const hourlyWeatherForecastReqiest = `https://api.openweathermap.org/data/2.5/forecast?appid=${weatherApiKey}&ctn=40&units=metric`;
-const reverseGeolocationRequest = `https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/geo/1.0/reverse?appid=${weatherApiKey}`;
+const reverseGeolocationRequest = `https://api.openweathermap.org/geo/1.0/reverse?appid=${weatherApiKey}`;
 const cityAutocompleteRequest = `https://api.geoapify.com/v1/geocode/autocomplete?apiKey=${cityAutocompleteApiKey}&type=city&text=`;
 
 const searchEl = document.querySelector(".search");
