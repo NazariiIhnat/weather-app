@@ -28,4 +28,4 @@ This is a simple weather application built using HTML, CSS, and JavaScript. The 
 <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/1.png" alt="Weather app screenshot 1">
 <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/2.png" alt="Weather app screenshot 2">
 <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/3.png" alt="Weather app screenshot 3">
-<img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/4.png  alt="Weather app screenshot 4">
+<img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/4.png"  alt="Weather app screenshot 4">
