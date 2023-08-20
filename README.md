@@ -25,7 +25,7 @@ This is a simple weather application built using HTML, CSS, and JavaScript. The 
 </ol>
 
 <h2>Screenshots</h2>
-<img src="C:\Users\DOM\Desktop\deploy\js\weather\screenshot\1.png" alt="Weather app screenshot">
-<img src="C:\Users\DOM\Desktop\deploy\js\weather\screenshot\2.png" alt="Weather app screenshot">
-<img src="C:\Users\DOM\Desktop\deploy\js\weather\screenshot\3.png" alt="Weather app screenshot">
-<img src="C:\Users\DOM\Desktop\deploy\js\weather\screenshot\4.png" alt="Weather app screenshot">
+<img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/1.png" alt="Weather app screenshot 1">
+<img src="[C:\Users\DOM\Desktop\deploy\js\weather\screenshot\2.png](https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/2.png)" alt="Weather app screenshot 2">
+<img src="[C:\Users\DOM\Desktop\deploy\js\weather\screenshot\3.png](https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/3.png)" alt="Weather app screenshot 3">
+<img src="[C:\Users\DOM\Desktop\deploy\js\weather\screenshot\4.png](https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/4.png)https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/1.png" alt="Weather app screenshot 4">
