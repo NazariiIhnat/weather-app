@@ -2,6 +2,9 @@
 <h2 style="font-weight: bold;">Overview</h2>
 This is a simple weather application built using HTML, CSS, and JavaScript. The application allows users to check the weather forecast for different cities and provides various interactive features to enhance the user experience.
 
+<h2 style="font-weight: bold;">Try it</h2>
+<a href="https://5days-weather-app.netlify.app/">https://5days-weather-app.netlify.app/</a>
+
 <h2 style="font-weight: bold;">Features</h2>
 <ol>
 <li>Weather Data Retrieval: The application fetches weather data using the OpenWeather 5days/3hours API to provide detailed weather forecasts.</li>
@@ -20,3 +23,9 @@ This is a simple weather application built using HTML, CSS, and JavaScript. The 
 
 <li><span style="font-weight: bold;">Day Navigation:</span> Users can click on a specific day at the bottom of the line chart. This action scrolls the chart to the point related to the chosen day and 0:00 hour. Weather data for that day and time is loaded and shown in a dedicated frame.</li>
 </ol>
+
+<h2>Screenshots</h2>
+<img src="C:\Users\DOM\Desktop\deploy\js\weather\screenshot\1.png" alt="Weather app screenshot">
+<img src="C:\Users\DOM\Desktop\deploy\js\weather\screenshot\2.png" alt="Weather app screenshot">
+<img src="C:\Users\DOM\Desktop\deploy\js\weather\screenshot\3.png" alt="Weather app screenshot">
+<img src="C:\Users\DOM\Desktop\deploy\js\weather\screenshot\4.png" alt="Weather app screenshot">
