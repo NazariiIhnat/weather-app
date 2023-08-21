@@ -24,12 +24,32 @@ This is a simple weather application built using HTML, CSS, and JavaScript. The 
 <li><span style="font-weight: bold;">Day Navigation:</span> Users can click on a specific day at the bottom of the line chart. This action scrolls the chart to the point related to the chosen day and 0:00 hour. Weather data for that day and time is loaded and shown in a dedicated frame.</li>
 </ol>
 
+<h2>Dependencies</h2>
+<ol>
+  <li><a href="https://openweathermap.org/forecast5">5 day weather forecast API</a></li>
+  <li><a href="https://openweathermap.org/current">Current weather data API</a></li>
+  <li><a href="https://openweathermap.org/api/geocoding-api">Geocoding API</a></li>
+  <li><a href="https://developers.google.com/maps/documentation/places/web-service/autocomplete">Places autocomplete API</a></li>
+  <li><a href="https://www.chartjs.org/">Chart.js library</a></li>
+</ol>
+
 <h2>Screenshots</h2>
-<span>Show autocomplete</span>
-<img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/1.png" alt="Weather app screenshot 1">
-<span>When hover point on line chart small div apears with hour, temperature and weather icon related to point day and hour</span>
-<img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/2.png" alt="Weather app screenshot 2">
-<span>Weather displayed by clicking on specific point on line chart Also day name highlighted.</span>
-<img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/3.png" alt="Weather app screenshot 3">
-<span>When click on specific day under the line chart the weather forecast of this day and 0:00 hout will be displayed. Also line chart will be scrooled to relative point and this point will be highlighted.</span>
-<img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/4.png"  alt="Weather app screenshot 4">
+<ol>
+  <li>
+    <span>Autocomplete example</span>
+    <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/1.png" alt="Weather app screenshot 1">
+  </li>
+  <li>
+    <span>When hover on point of line chart small div apears with hour, temperature and weather icon related to point day and hour</span>
+    <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/2.png" alt="Weather app screenshot 2">
+  </li>
+  <li>
+    <span>Weather displayed by clicking on specific point on line chart Also day name highlighted.</span></li>
+    <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/3.png" alt="Weather app screenshot 3">
+  </li>
+  <li>
+    <span>When click on specific day under the line chart the weather forecast of this day and 0:00 hour will be displayed.
+  Also line chart will be scrooled to relative point and this point will be highlighted.</span>
+    <img src="https://github.com/NazariiIhnat/weather-app/blob/master/screenshot/4.png"  alt="Weather app screenshot 4">
+  </li>
+</ol>
